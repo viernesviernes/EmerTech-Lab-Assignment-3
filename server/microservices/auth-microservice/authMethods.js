@@ -1,0 +1,31 @@
+const jwt = require('jsonwebtoken');
+
+const COOKIE_NAME = 'token';
+const SECRET = process.env.SESSION_SECRET || "SuperCrazyName";
+const MAX_AGE_SEC = 1 * 60 * 60;
+
+
+function sign(payload) {
+  if (!SECRET) throw new Error('SESSION_SECRET or sessionSecret required');
+  return jwt.sign(payload, SECRET, { expiresIn: MAX_AGE_SEC });
+}
+
+
+function setTokenCookie(res, payload) {
+    const token = sign(payload);
+  res.cookie(COOKIE_NAME, token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: MAX_AGE_SEC * 1000,
+  });
+}
+
+function clearCookie(res){
+    res.clearCookie(COOKIE_NAME);
+}
+
+module.exports = {
+    setTokenCookie,
+    clearCookie
+};
