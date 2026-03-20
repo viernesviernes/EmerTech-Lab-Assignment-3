@@ -1,14 +1,33 @@
 import { defineConfig } from 'vite'
-import react, { reactCompilerPreset } from '@vitejs/plugin-react'
-import babel from '@rolldown/plugin-babel'
+import react from '@vitejs/plugin-react'
+import federation from '@originjs/vite-plugin-federation'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
-    babel({ presets: [reactCompilerPreset()] }),
-    server({
-      port: 3002,
+    federation({
+      name: 'communityApp',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './App': './src/App.jsx',
+      },
+      shared: ['react', 'react-dom', '@apollo/client', 'graphql']
     })
   ],
+  optimizeDeps: {
+    exclude: ['@originjs/vite-plugin-federation']
+  },
+  build: {
+    modulePreload: false,
+    target: 'esnext',
+    minify: false,
+    cssCodeSplit: false,
+  },
+  server: {
+    port: 3002,
+  },
+  preview: {
+    port: 3002,
+  }
 })
