@@ -10,18 +10,19 @@ const typeDefs = gql`
   }
 
   type Query {
-    _empty: String
+    currentUser: User
   }
 
   type Mutation {
-    signUp(
+    register(
       username: String!
       email: String!
       role: String!
       password: String!
     ): User
 
-    signIn(username: String!, password: String!): Boolean
+    loginByUsername(username: String!, password: String!): User
+    loginByEmail(email: String!, password: String!): User
     signOut: Boolean
   }
 `;

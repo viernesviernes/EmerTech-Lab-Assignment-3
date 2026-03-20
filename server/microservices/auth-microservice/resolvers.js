@@ -1,14 +1,22 @@
 const User = require('./userModel');
-const {setTokenCookie, clearCookie} =  require('./authMethods');
+const {setTokenCookie, clearCookie, getUserIdFromToken} =  require('./authMethods');
 
 
 const resolvers = {
+    Query: {
+        currentUser: async(_, __, context) => {
+            //create logic, to search user, based on off cookie token user id
+            const userId = getUserIdFromToken(context);
+            if (!userId) return null;
+            return await User.findById(userId);
+        },
+    },
     Mutation: {
-        signUp: async(_, args, context) => {
+        register: async(_, args, context) => {
             const user = new User(args);
             return await user.save();
         },
-        signIn: async(_, {username, password}, context) => {
+        loginByUsername: async(_, {username, password}, context) => {
             console.log(`Username: ${username}, password: ${password}`);
             const user = await User.findOne({username});
             if (user == null){
@@ -21,7 +29,21 @@ const resolvers = {
                 return false;
             };
             setTokenCookie(context.res, {id: user._id.toString(), role: 'user'});
-            return true;
+            return user;
+        },
+        loginByEmail: async(_, {email, password}, context) => {
+            const user = await User.findOne({email});
+            if (user == null){
+                console.log("User not found");
+                throw new Error("User not found");
+            }
+            
+            if (!user.authenticate(password)){
+                console.log("password is wrong");
+                throw new Error("Password is incorrect");
+            };
+            setTokenCookie(context.res, {id: user._id.toString(), role: 'user'});
+            return user;
         },
         signOut: (_, __, context) => {
             clearCookie(context.res)

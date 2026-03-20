@@ -6,6 +6,7 @@ const { buildSubgraphSchema } = require('@apollo/subgraph');
 const {expressMiddleware} = require('@as-integrations/express4')
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 
 const MONGODB_URL = "mongodb://localhost:27017/authDB";
@@ -35,6 +36,7 @@ const startServer = async () => {
 
     const app = express();
     const port = 3003;
+    app.use(cookieParser());
     app.use(
         '/graphql',
         cors(),
