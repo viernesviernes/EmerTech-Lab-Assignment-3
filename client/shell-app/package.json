@@ -1,14 +1,13 @@
 {
-  "name": "auth-app",
+  "name": "shell-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port=3001 --strictPort",
+    "dev": "vite --port=3000 --strictPort",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview --port=3001 --strictPort",
-    "deploy": "npm run build && npm run preview"
+    "preview": "vite preview --port=3000 --strictPort"
   },
   "dependencies": {
     "@apollo/client": "3.9.5",
@@ -17,7 +16,8 @@
     "graphql": "16.8.1",
     "react": "18.2.0",
     "react-bootstrap": "2.10.10",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-router-dom": "7.13.1"
   },
   "devDependencies": {
     "@types/react": "18.2.56",

@@ -7,27 +7,26 @@ export default defineConfig({
   plugins: [
     react(),
     federation({
-      name: 'authApp',
-      filename: 'remoteEntry.js',
-      exposes: {
-        './App': './src/App.jsx',
+      name: 'shellApp',
+      remotes: {
+        authApp: 'http://localhost:3001/assets/remoteEntry.js',
       },
       shared: ['react', 'react-dom', '@apollo/client', 'graphql']
     })
   ],
-  optimizeDeps: {
-    exclude: ['@originjs/vite-plugin-federation']
-  },
   build: {
     modulePreload: false,
     target: 'esnext',
     minify: false,
     cssCodeSplit: false,
   },
+  optimizeDeps: {
+    exclude: ['@originjs/vite-plugin-federation']
+  },
   server: {
-    port: 3001,
+    port: 3000,
   },
   preview: {
-    port: 3001,
+    port: 3000,
   }
 })
