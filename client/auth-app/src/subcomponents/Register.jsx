@@ -5,7 +5,12 @@ import { gql, useMutation } from '@apollo/client';
 
 const REGISTER_USER = gql`
     mutation Register($username: String!, $email: String!, $password: String!, $role: String!) {
-        register(username: $username, email: $email, password: $password, role: $role)
+        register(username: $username, email: $email, password: $password, role: $role) {
+            id
+            username
+            email
+            role
+        }
     }
 `;
 
@@ -18,8 +23,12 @@ const Register = () => {
 
     const [registerUser] = useMutation(REGISTER_USER,
         {
+            onCompleted: (data) => {
+                alert("Registration successful! Please proceed to login.");
+                setError('');
+            },
             onError: (error) => {
-                setError(error.message);
+                setError(error.message + " Please try again with different credentials.");
             }
         }
     );
@@ -29,10 +38,10 @@ const Register = () => {
         try {
             await registerUser({
                 variables: {
-                    username,
-                    email,
-                    password,
-                    role
+                    username: username,
+                    email: email,
+                    password: password,
+                    role: role
                 }
             });
             // Handle successful registration (e.g., redirect to login)

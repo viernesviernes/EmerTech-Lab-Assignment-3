@@ -3,6 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import { gql, useMutation } from '@apollo/client';
 
 const Login = () => {
+    
 
     const [input, setInput] = useState('');
     const [password, setPassword] = useState('');
@@ -10,18 +11,35 @@ const Login = () => {
 
     const LOGIN_BY_EMAIL_MUTATION = gql`
     mutation LoginByEmail($email: String!, $password: String!) {
-        loginByEmail(email: $email, password: $password)
+        loginByEmail(email: $email, password: $password) {
+            id
+            username
+            email
+            role
+        }
     }
     `;
 
     const LOGIN_BY_USERNAME_MUTATION = gql`
     mutation LoginByUsername($username: String!, $password: String!) {
-        loginByUsername(username: $username, password: $password)
+        loginByUsername(username: $username, password: $password) {
+            id
+            username
+            email
+            role
+        }
     }
     `;
 
     const onCompleted = (data) => {
+        const user = data?.loginByEmail || data?.loginByUsername;
+        if (!user?.id) {
+            setError("Invalid credentials. Please try again.");
+            return;
+        }
         console.log("Login successful!", data);
+        window.dispatchEvent(new CustomEvent('loginSuccess', { detail: { isLoggedIn: true } }));
+        window.location.href = '/';
     };
 
     const onError = (error) => {
@@ -37,11 +55,11 @@ const Login = () => {
 
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-        if (!emailRegex.test(input)) {
-            console.log("Logging in by email");
+        if (emailRegex.test(input)) {
+            console.log("Logging in by email with these credentials:", { email: input, password });
             loginByEmail({ variables: { email: input, password: password } })
         } else {
-            console.log("Logging in by username");
+            console.log("Logging in by username with these credentials:", { username: input, password });
             loginByUsername({ variables: { username: input, password: password } })
         }
 

@@ -10,6 +10,7 @@ export default defineConfig({
       name: 'shellApp',
       remotes: {
         authApp: 'http://localhost:3001/assets/remoteEntry.js',
+        communityApp: 'http://localhost:3002/assets/remoteEntry.js',
       },
       shared: ['react', 'react-dom', '@apollo/client', 'graphql']
     })
