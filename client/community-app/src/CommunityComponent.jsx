@@ -26,7 +26,6 @@ export default function CommunityComponent() {
                 <ul>
                     <li><button onClick={() => setActiveTab(<CommunityPosts />)}>Community Posts</button></li>
                     <li><button onClick={() => setActiveTab(<HelpRequests />)}>Help Requests</button></li>
-                    <li><button onClick={() => setActiveTab(<YourProfile />)}>Your Profile</button></li>
                 </ul>
                 <div>
                     {activeTab}

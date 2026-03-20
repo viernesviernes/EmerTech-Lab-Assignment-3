@@ -6,7 +6,7 @@ import AuthComponent from './AuthComponent';
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: import.meta.env.VITE_APP_GRAPHQL_URI,
+    uri: 'http://localhost:4000/graphql',
     credentials: 'include'
   }),
   cache: new InMemoryCache()
