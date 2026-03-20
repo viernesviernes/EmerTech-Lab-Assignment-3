@@ -11,6 +11,7 @@ async function startGateway() {
   const gateway = new ApolloGateway({
     serviceList: [
       { name: 'auth', url: 'http://localhost:3003/graphql' },
+      { name: 'communityEngagement', url: 'http://localhost:3004/graphql' },
     ],
     buildService({ name, url }) {
       return new RemoteGraphQLDataSource({

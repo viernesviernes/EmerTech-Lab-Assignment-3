@@ -9,9 +9,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
-
-const MONGODB_URL = process.env.Auth_MONGODB_URL;
-
+console.log("MONGODB_URL:", process.env.Comm_MONGODB_URL);
+const MONGODB_URL = process.env.Comm_MONGODB_URL;
 
 const configureMongoose = async () => {
   try {
@@ -36,7 +35,7 @@ const startServer = async () => {
     await server.start();
 
     const app = express();
-    const port = 3003;
+    const port = 3004;
     app.use(cookieParser());
     app.use(
         '/graphql',
@@ -50,7 +49,7 @@ const startServer = async () => {
     );
 
     app.listen(process.env.PORT || port, async () => {
-    console.log(`Authentication microservice ready at http://localhost:${port}/graphql`)
+    console.log(`Community Engagement microservice ready at http://localhost:${port}/graphql`)
     });
 
 }

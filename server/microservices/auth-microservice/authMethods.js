@@ -1,7 +1,10 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-const COOKIE_NAME = 'token';
-const SECRET = process.env.SESSION_SECRET || "SuperCrazyName";
+const COOKIE_NAME = process.env.COOKIE_NAME || "";
+console.log("DId the env work? ", COOKIE_NAME);
+
+const SECRET = process.env.SESSION_SECRET || "";
 const MAX_AGE_SEC = 1 * 60 * 60;
 
 

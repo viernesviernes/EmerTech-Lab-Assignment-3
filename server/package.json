@@ -10,9 +10,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:auth": "node microservices/auth-microservice/server.js",
+    "start:comm": "node microservices/community-engagement-microservice/server.js",
     "start:gateway": "node gateway.js",
-    "dev:gateway": "wait-on tcp:3003 && npm run start:gateway",
-    "dev": "concurrently \"npm run start:auth\" \"npm run dev:gateway\""
+    "dev:gateway": "wait-on tcp:3003 tcp:3004 && npm run start:gateway",
+    "dev": "concurrently \"npm run start:auth\" \"npm run start:comm\" \"npm run dev:gateway\""
   },
   "dependencies": {
     "@apollo/federation": "^0.38.1",
@@ -27,7 +28,8 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.3.1",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "dotenv": "^17.3.1"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
