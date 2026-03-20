@@ -9,6 +9,26 @@ const {
   getCookieHeaderForSubgraph,
 } = require('./gatewayAuth');
 
+// Microfrontends: shell 3000, auth-app 3001, community-app 3002. Override with CORS_ORIGINS=comma,separated,urls
+const defaultDevOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:3002',
+];
+const allowedOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(',').map((s) => s.trim()).filter(Boolean)
+  : defaultDevOrigins;
+
+const corsOptions = {
+  origin(origin, callback) {
+    // e.g. curl / server-to-server — no Origin header
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS blocked origin: ${origin}`));
+  },
+  credentials: true,
+};
+
 async function startGateway() {
   const app = express();
 
@@ -69,7 +89,7 @@ async function startGateway() {
   app.use(cookieParser());
   app.use(
     '/graphql',
-    cors({origin: 'http://localhost:3000', credentials: true}),
+    cors(corsOptions),
     express.json(),
     expressMiddleware(server, {
       context: ({ req, res }) => ({
