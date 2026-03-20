@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const resolvers = require('./resolvers');
-const typeDefs = require('./typeDefs');
+const resolvers = require('./graphql/resolvers');
+const typeDefs = require('./graphql/typeDefs');
 const { ApolloServer, gql } = require('@apollo/server');
 const { buildSubgraphSchema } = require('@apollo/subgraph');
 const {expressMiddleware} = require('@as-integrations/express4')

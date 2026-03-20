@@ -1,22 +1,6 @@
-const CommunityPost = require('./models/communityPost');
-const HelpRequest = require('./models/helpRequest');
-require('dotenv').config();
-const jwt = require('jsonwebtoken');
-
-const {COOKIE_NAME, SESSION_SECRET: SECRET} = process.env;
-
-function getUserIdFromToken(context) {
-  const token = context.req.cookies[COOKIE_NAME];
-  if (!token) return null;
-
-  try {
-    const decoded = jwt.verify(token, SECRET);
-    return decoded.id;
-  } catch (err) {
-    console.error('Error verifying token:', err);
-    return null;
-  }
-}
+const CommunityPost = require('../models/communityPost');
+const HelpRequest = require('../models/helpRequest');
+const { getUserIdFromToken, generateAiSummary } = require('../helpers');
 
 
 
@@ -34,9 +18,9 @@ const resolvers = {
         createCommunityPost: async(_, {title, content, category}, context) => {
             const authorId =  getUserIdFromToken(context);
 
-            //TODO: Create logic for AI Summary, will neeed to call AI API.
+            const aiSummary = await generateAiSummary(content);
 
-            const communityPost = new CommunityPost({title, content, category, author: authorId});
+            const communityPost = new CommunityPost({title, content, category, author: authorId, aiSummary});
             return await communityPost.save();
         },
         createHelpRequest: async(_, {description, location}, context) => {

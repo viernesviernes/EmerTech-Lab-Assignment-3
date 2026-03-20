@@ -1,5 +1,5 @@
-const User = require('./userModel');
-const {setTokenCookie, clearCookie, getUserIdFromToken} =  require('./authMethods');
+const User = require('../model/userModel');
+const {setTokenCookie, clearCookie, getUserIdFromToken} =  require('../authMethods');
 
 
 const resolvers = {
