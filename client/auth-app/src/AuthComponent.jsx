@@ -1,21 +1,32 @@
 import { useState } from 'react';
-import { Button, Container } from 'react-bootstrap';
+import './App.css';
 
 import Login from './subcomponents/Login';
 import Register from './subcomponents/Register';
 
 const AuthComponent = () => {
-
     const [isLogin, setIsLogin] = useState(true);
 
     return (
-        <>
-        <Container className="d-flex justify-content-center align-items-center">
-            <Button onClick={() => setIsLogin(true)} disabled={isLogin}>Login</Button>
-            <Button onClick={() => setIsLogin(false)} disabled={!isLogin}>Register</Button>
-        </Container>
-        {isLogin ? <Login /> : <Register />}
-        </>
-    )
-}
+        <div className="auth-card">
+            <h1>Welcome</h1>
+            <div className="auth-tabs">
+                <button
+                    className={`auth-tab-btn ${isLogin ? 'active' : ''}`}
+                    onClick={() => setIsLogin(true)}
+                >
+                    Log In
+                </button>
+                <button
+                    className={`auth-tab-btn ${!isLogin ? 'active' : ''}`}
+                    onClick={() => setIsLogin(false)}
+                >
+                    Register
+                </button>
+            </div>
+            {isLogin ? <Login /> : <Register />}
+        </div>
+    );
+};
+
 export default AuthComponent;

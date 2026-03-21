@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery, useMutation } from '@apollo/client';
+import './App.css'
 
 import CommunityPosts from './subcomponents/CommunityPosts'
 import HelpRequests from './subcomponents/HelpRequests'
@@ -12,23 +13,48 @@ const GET_CURRENT_USER_QUERY = gql`
   }
 `
 
+const SIGN_OUT_MUTATION = gql`
+  mutation SignOut {
+    signOut
+  }
+`
+
 export default function CommunityComponent() {
 
     const { data } = useQuery(GET_CURRENT_USER_QUERY);
-    
-    const [activeTab, setActiveTab] = useState(<></>)
+    const [activeTab, setActiveTab] = useState('posts')
+    const [signOut] = useMutation(SIGN_OUT_MUTATION, {
+        onCompleted: () => { window.location.href = '/'; }
+    });
 
     return (
-        <div className="App">
-            <h1>Community App {data?.currentUser?.username}</h1>
+        <div>
+            <nav className="community-navbar">
+                <h1>Community App</h1>
+                {data?.currentUser?.username && (
+                    <span className="username-badge">{data.currentUser.username}</span>
+                )}
+                <button className="signout-btn" onClick={() => signOut()}>Sign Out</button>
+            </nav>
+            <div className="community-content">
+            <div className="tabs">
+                <button
+                    className={`tab-btn ${activeTab === 'posts' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('posts')}
+                >
+                    Community Posts
+                </button>
+                <button
+                    className={`tab-btn ${activeTab === 'help' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('help')}
+                >
+                    Help Requests
+                </button>
+            </div>
             <div>
-                <ul>
-                    <li><button onClick={() => setActiveTab(<CommunityPosts />)}>Community Posts</button></li>
-                    <li><button onClick={() => setActiveTab(<HelpRequests />)}>Help Requests</button></li>
-                </ul>
-                <div>
-                    {activeTab}
-                </div>
+                {activeTab === 'posts' && <CommunityPosts />}
+                {activeTab === 'help' && <HelpRequests />}
+            </div>
             </div>
         </div>
     )

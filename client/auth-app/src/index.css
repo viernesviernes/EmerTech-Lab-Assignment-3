@@ -12,5 +12,11 @@ h1, h2, h3 {
 
 body {
   margin: 0;
-  padding: 0 10em;
+  padding: 0;
+  background: radial-gradient(ellipse at 60% 30%, #e8d5b7 0%, #c9a87c 40%, #8b5e3c 100%);
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

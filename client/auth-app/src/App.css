@@ -1,0 +1,111 @@
+.auth-card {
+  background: rgba(255, 248, 235, 0.75);
+  border: 1px solid rgba(139, 94, 60, 0.25);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 90em;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 32px rgba(59, 32, 9, 0.15);
+}
+
+.auth-card h1 {
+  margin: 0 0 1.5rem 0;
+  font-size: 2rem;
+  color: #3b2009;
+  text-align: center;
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px solid rgba(139, 94, 60, 0.25);
+  margin-bottom: 1.8rem;
+}
+
+.auth-tab-btn {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #6b4c30;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.auth-tab-btn:hover {
+  color: #3b2009;
+}
+
+.auth-tab-btn.active {
+  color: #8b5e3c;
+  border-bottom-color: #8b5e3c;
+  font-weight: 600;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-group label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #6b4226;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.7rem 1rem;
+  border: 1px solid rgba(139, 94, 60, 0.3);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: rgba(255, 252, 245, 0.9);
+  color: #3b2009;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #8b5e3c;
+}
+
+.auth-error {
+  font-size: 0.85rem;
+  color: #991b1b;
+  background: #fee2e2;
+  border-radius: 6px;
+  padding: 0.5rem 0.8rem;
+}
+
+.auth-submit-btn {
+  margin-top: 0.5rem;
+  background: #8b5e3c;
+  color: #fdf6ec;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 100%;
+}
+
+.auth-submit-btn:hover {
+  background: #6b4226;
+}

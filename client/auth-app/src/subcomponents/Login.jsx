@@ -1,15 +1,7 @@
 import { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
 import { gql, useMutation } from '@apollo/client';
 
-const Login = () => {
-    
-
-    const [input, setInput] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-
-    const LOGIN_BY_EMAIL_MUTATION = gql`
+const LOGIN_BY_EMAIL_MUTATION = gql`
     mutation LoginByEmail($email: String!, $password: String!) {
         loginByEmail(email: $email, password: $password) {
             id
@@ -18,9 +10,9 @@ const Login = () => {
             role
         }
     }
-    `;
+`;
 
-    const LOGIN_BY_USERNAME_MUTATION = gql`
+const LOGIN_BY_USERNAME_MUTATION = gql`
     mutation LoginByUsername($username: String!, $password: String!) {
         loginByUsername(username: $username, password: $password) {
             id
@@ -29,7 +21,12 @@ const Login = () => {
             role
         }
     }
-    `;
+`;
+
+const Login = () => {
+    const [input, setInput] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     const onCompleted = (data) => {
         const user = data?.loginByEmail || data?.loginByUsername;
@@ -37,61 +34,53 @@ const Login = () => {
             setError("Invalid credentials. Please try again.");
             return;
         }
-        console.log("Login successful!", data);
         window.dispatchEvent(new CustomEvent('loginSuccess', { detail: { isLoggedIn: true } }));
         window.location.href = '/';
     };
 
-    const onError = (error) => {
-        console.log("Login failed!", error.message);
-        setError(error.message);
+    const onError = (err) => {
+        setError(err.message);
     };
 
     const [loginByEmail] = useMutation(LOGIN_BY_EMAIL_MUTATION, { onCompleted, onError });
     const [loginByUsername] = useMutation(LOGIN_BY_USERNAME_MUTATION, { onCompleted, onError });
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
         if (emailRegex.test(input)) {
-            console.log("Logging in by email with these credentials:", { email: input, password });
-            loginByEmail({ variables: { email: input, password: password } })
+            loginByEmail({ variables: { email: input, password } });
         } else {
-            console.log("Logging in by username with these credentials:", { username: input, password });
-            loginByUsername({ variables: { username: input, password: password } })
+            loginByUsername({ variables: { username: input, password } });
         }
-
-        console.log(input, password);
-    }
+    };
 
     return (
-        <>
-        <h1>Log In</h1>
-        <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Username/Email</Form.Label>
-                <Form.Control placeholder="Enter username or email" onChange={(e) => setInput(e.target.value)} required />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
-            </Form.Group>
-            {
-                error &&
-                <Form.Group className="mb-3" controlId="formBasicError">
-                    <Form.Text className="text-danger">
-                        {error}
-                    </Form.Text>
-                </Form.Group>
-            }
-            <Button variant="primary" type="submit">
-                Log In
-            </Button>
-        </Form>
-        </>
-    )
-}
+        <form className="auth-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+                <label>Username or Email</label>
+                <input
+                    type="text"
+                    placeholder="Enter username or email"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    required
+                />
+            </div>
+            <div className="form-group">
+                <label>Password</label>
+                <input
+                    type="password"
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+            </div>
+            {error && <p className="auth-error">{error}</p>}
+            <button className="auth-submit-btn" type="submit">Log In</button>
+        </form>
+    );
+};
 
 export default Login;
