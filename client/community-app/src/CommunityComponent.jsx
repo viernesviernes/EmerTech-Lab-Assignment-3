@@ -3,7 +3,6 @@ import { gql, useQuery } from '@apollo/client';
 
 import CommunityPosts from './subcomponents/CommunityPosts'
 import HelpRequests from './subcomponents/HelpRequests'
-import YourProfile from './subcomponents/YourProfile'
 
 const GET_CURRENT_USER_QUERY = gql`
   query GetCurrentUser {
