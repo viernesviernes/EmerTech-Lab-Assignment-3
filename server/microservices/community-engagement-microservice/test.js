@@ -5,7 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const CommunityPost = require('./models/communityPost');
-const { getAllUserInteractions } = require('./services/interactionRecorder');
+const { getAllUserInteractions } = require('./services/interactionRecorderService');
 const GenerateGemeniApiResponse = require('./services/gemeniApiService');
 
 const MONGODB_URL = process.env.Comm_MONGODB_URL;
