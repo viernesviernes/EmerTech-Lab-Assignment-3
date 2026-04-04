@@ -6,7 +6,7 @@ const CommunityPost = require('../models/communityPost');
 
 require('dotenv').config({ path: require('path').resolve(__dirname, '../../../.env') });
 
-const { Comm_MONGODB_URL, GEMINI_API_KEY, MONGODB_URL, MONGODB_COMMUNITY_ENGAGEMENT_DB, MONGODB_COMMUNITY_ENGAGEMENT_COLLECTION } = process.env;
+const { Comm_MONGODB_URL, GEMINI_API_KEY } = process.env;
 
 const retrieveRelevantCommunityPosts = async (query) => {
     try {
