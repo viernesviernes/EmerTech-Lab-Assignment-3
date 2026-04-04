@@ -59,4 +59,4 @@ const retrieveRelevantCommunityPosts = async (query) => {
     }
 }
 
-retrieveRelevantCommunityPosts("Looking for help with gardening tips");
+module.exports = retrieveRelevantCommunityPosts;
