@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
+require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 const OpenAI = require('openai');
 const openai = new OpenAI({
   baseURL: process.env.DEEPSEEK_BASE_URL,
