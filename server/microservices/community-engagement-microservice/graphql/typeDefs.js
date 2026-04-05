@@ -23,9 +23,25 @@ type helpRequest {
     updatedAt: String!,
 }
 
+type interaction {
+    id: ID!,
+    userId: ID!,
+    userMsg: String!,
+    aiResponse: aiResponse!,
+    createdAt: String!,
+    updatedAt: String!,
+}
+
+type aiResponse {
+    text: String!,
+    suggestedQuestions: [String!]!,
+    retrievedPosts: [communityPost!]!,
+}
+
 type Query {
     getCommunityPosts: [communityPost!]!
     getHelpRequests: [helpRequest!]!
+    getInteractions: [interaction!]!
 }
 
 type Mutation {
@@ -42,6 +58,7 @@ type Mutation {
 
     volunteerForHelpRequest(helpRequestId: ID!): helpRequest!
     updateHelpRequestIsResolved(helpRequestId: ID!, isResolved: Boolean!): helpRequest!
+    sendMessageToAI(userMsg: String!): aiResponse!
 }
 `;
 

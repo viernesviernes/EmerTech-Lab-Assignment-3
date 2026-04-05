@@ -14,7 +14,7 @@ async function saveInteraction(userId, userMsg, aiResponse) {
 }
 
 async function getAllUserInteractions(userId) {
-    return Interaction.find({ userId }).sort({ updatedAt: -1 }).exec();
+    return Interaction.find({ userId }).populate('aiResponse.retrievedPosts').sort({ updatedAt: -1 }).exec();
 }
 
 const interactionRecorderObject = {

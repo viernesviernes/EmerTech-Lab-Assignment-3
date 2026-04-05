@@ -5,11 +5,12 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const CommunityPost = require('./models/communityPost');
-const { getAllUserInteractions } = require('./services/interactionRecorderService');
+const { getAllUserInteractions, saveInteraction } = require('./services/interactionRecorderService');
 const GenerateGemeniApiResponse = require('./services/gemeniApiService');
+const retrieveRelevantCommunityPosts = require('./ai-pipeline/retrieveRelevantCommunityPosts');
 
 const MONGODB_URL = process.env.Comm_MONGODB_URL;
-const TEST_USER_ID = '674a1b2c3d4e5f6789012345';
+const TEST_USER_ID = '69bd968b6de193142473de6d';
 
 async function connectDb() {
     await mongoose.connect(MONGODB_URL);
@@ -57,7 +58,7 @@ async function start() {
                 });
             }
 
-            const allPosts = await CommunityPost.find().sort({ updatedAt: -1 }).exec();
+            const allPosts = await retrieveRelevantCommunityPosts(userMsg);
             const pastInteractions = await getAllUserInteractions(TEST_USER_ID);
 
             const aiResponse = await GenerateGemeniApiResponse(
@@ -65,6 +66,8 @@ async function start() {
                 pastInteractions,
                 userMsg
             );
+
+            await saveInteraction(TEST_USER_ID, userMsg, aiResponse);
 
             res.json(aiResponse);
         } catch (err) {
